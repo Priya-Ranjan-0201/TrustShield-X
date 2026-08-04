@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tsx_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: truthshield
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d truthshield"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: tsx_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+      dockerfile: Dockerfile
+    container_name: tsx_auth_service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: development
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: truthshield
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET_KEY: dev_super_secret_jwt_key_truthshield_x_change_in_production_min_32_chars
+      ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: tsx_web
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - auth-service
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "TruthShield X",
+    "tagline": "National Digital Trust Platform"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "unified_scan": "Unified Scanner",
+    "scan_history": "Scan History",
+    "reports": "Reports",
+    "threat_intel": "Threat Intelligence",
+    "notifications": "Notifications",
+    "profile": "User Profile",
+    "settings": "System Settings",
+    "logout": "Sign Out",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "trustScoreTitle": "National Digital Trust Index",
+    "recentActivity": "Recent Security Verifications",
+    "scanStats": "Scan Engine Metrics",
+    "threatSummary": "Scam & Fraud Prevention Radar",
+    "quickActions": "Quick Actions",
+    "securityTips": "Security Best Practices"
+  },
+  "placeholders": {
+    "comingSoon": "Coming Soon",
+    "threatIntelTooltip": "Threat Intelligence Knowledge Graph module will ship in Phase 17.",
+    "searchTooltip": "Global AI Deep Search bar will activate in Phase 4.",
+    "exportTooltip": "Export Report PDF/CSV functionality will activate in Phase 4."
+  },
+  "common": {
+    "status": "Status",
+    "actions": "Actions",
+    "search": "Search...",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error"
+  }
+}
