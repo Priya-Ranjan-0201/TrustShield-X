@@ -5,7 +5,7 @@ import { SectionHeader } from '../components/common/SectionHeader';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 import { Badge } from '../components/ui/Badge';
-import { mockReportsService } from '../services/mockReportsService';
+import { reportsService } from '../services/reportsService';
 import { ReportItem } from '../types';
 
 export const ReportsPage: React.FC = () => {
@@ -14,12 +14,12 @@ export const ReportsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mockReportsService.getReports().then((res) => {
+    reportsService.getReports().then((res) => {
       if (res.success && res.data) {
         setReports(res.data);
       }
       setIsLoading(false);
-    });
+    }).catch(() => setIsLoading(false));
   }, []);
 
   const filteredReports = reports.filter((rep) =>

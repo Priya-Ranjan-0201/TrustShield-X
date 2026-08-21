@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Drawer } from '../ui/Drawer';
 import { useNotificationStore } from '../../store/useNotificationStore';
+import { notificationsService } from '../../services/notificationsService';
 import { Check, AlertTriangle, Info, ShieldAlert } from 'lucide-react';
 import { Badge } from '../ui/Badge';
 import { EmptyState } from '../ui/EmptyState';
 
 export const NotificationsDrawer: React.FC = () => {
-  const { notifications, isDrawerOpen, setDrawerOpen, markAsRead, markAllAsRead } =
+  const { notifications, isDrawerOpen, setDrawerOpen, setNotifications, markAsRead, markAllAsRead } =
     useNotificationStore();
+
+  useEffect(() => {
+    if (isDrawerOpen) {
+      notificationsService.getNotifications().then((res) => {
+        if (res.success && res.data) {
+          setNotifications(res.data);
+        }
+      }).catch(() => {});
+    }
+  }, [isDrawerOpen, setNotifications]);
+
+  const handleMarkRead = async (id: string) => {
+    markAsRead(id);
+    await notificationsService.markAsRead(id);
+  };
+
+  const handleMarkAllRead = async () => {
+    markAllAsRead();
+    await notificationsService.markAllAsRead();
+  };
 
   const severityIcons = {
     info: <Info className="w-4 h-4 text-cyan-400" />,

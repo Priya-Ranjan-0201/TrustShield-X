@@ -12,6 +12,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Radar,
+  Sparkles,
+  Layers,
   X,
 } from 'lucide-react';
 import { useSidebarStore } from '../../store/useSidebarStore';
@@ -25,19 +28,17 @@ export const Sidebar: React.FC = () => {
   const navItems = [
     { label: t('nav.dashboard'), path: '/dashboard', icon: LayoutDashboard },
     { label: t('nav.unified_scan'), path: '/scan', icon: ScanLine },
+    { label: 'Threat Intel Fabric', path: '/threat-intelligence-center', icon: Network },
+    { label: 'Early Warning & Hunting', path: '/threat-intelligence-command', icon: Radar },
+    { label: 'AI Security Copilot', path: '/security-copilot', icon: Sparkles },
+    { label: 'Autonomous SOC', path: '/autonomous-soc', icon: Layers },
     { label: t('nav.scan_history'), path: '/history', icon: History },
     { label: t('nav.reports'), path: '/reports', icon: FileText },
-    {
-      label: t('nav.threat_intel'),
-      path: '#',
-      icon: Network,
-      isPlaceholder: true,
-      tooltip: t('placeholders.threatIntelTooltip'),
-    },
     { label: t('nav.notifications'), path: '/notifications', icon: Bell },
     { label: t('nav.profile'), path: '/profile', icon: User },
     { label: t('nav.settings'), path: '/settings', icon: Settings },
   ];
+
 
   const sidebarContent = (
     <aside
@@ -76,23 +77,6 @@ export const Sidebar: React.FC = () => {
         {navItems.map((item) => {
           const Icon = item.icon;
 
-          if (item.isPlaceholder) {
-            return (
-              <div key={item.label} className="px-1">
-                <TooltipDisabled tooltipText={item.tooltip} className="w-full">
-                  <div
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-500 select-none ${
-                      isCollapsed ? 'justify-center' : ''
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 flex-shrink-0" />
-                    {!isCollapsed && <span className="truncate">{item.label}</span>}
-                  </div>
-                </TooltipDisabled>
-              </div>
-            );
-          }
-
           return (
             <NavLink
               key={item.path}
@@ -112,6 +96,7 @@ export const Sidebar: React.FC = () => {
           );
         })}
       </nav>
+
 
       {/* Footer Status */}
       {!isCollapsed && (

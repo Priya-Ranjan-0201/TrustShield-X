@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DigitalTrustReportSchema",
+  "type": "object",
+  "required": [
+    "report_id",
+    "analysis_id",
+    "report_version",
+    "schema_version",
+    "generated_at",
+    "trust_overview",
+    "risk_assessment"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "analysis_id": {
+      "type": "string"
+    },
+    "report_version": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "generated_by": {
+      "type": "string"
+    },
+    "report_type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["COMPLETED", "PARTIAL", "FAILED", "UNVERIFIED", "SIGNED", "ARCHIVED"]
+    },
+    "language": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "trust_overview": {
+      "type": "object",
+      "required": ["risk_score", "risk_band", "confidence", "evidence_sufficiency"],
+      "properties": {
+        "risk_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "risk_band": { "type": "string" },
+        "confidence": { "type": "string" },
+        "evidence_sufficiency": { "type": "string" },
+        "analysis_status": { "type": "string" },
+        "modules_analyzed": { "type": "array", "items": { "type": "string" } },
+        "findings_count": { "type": "integer" },
+        "evidence_count": { "type": "integer" },
+        "threat_matches": { "type": "integer" },
+        "critical_findings": { "type": "integer" },
+        "high_risk_findings": { "type": "integer" },
+        "contradictions": { "type": "integer" },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "risk_assessment": {
+      "type": "object"
+    },
+    "executive_summary": {
+      "type": "object"
+    },
+    "major_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "category", "title", "description", "confidence"],
+        "properties": {
+          "finding_id": { "type": "string" },
+          "category": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string" },
+          "confidence": { "type": "string" },
+          "severity_reference": { "type": "string" },
+          "evidence_strength": { "type": "string" },
+          "source_modules": { "type": "array", "items": { "type": "string" } },
+          "evidence_count": { "type": "integer" },
+          "independent_source_count": { "type": "integer" },
+          "related_entities": { "type": "array", "items": { "type": "string" } },
+          "related_rules": { "type": "array", "items": { "type": "string" } },
+          "related_threat_matches": { "type": "array", "items": { "type": "string" } },
+          "provenance_reference": { "type": "string" }
+        }
+      }
+    },
+    "evidence_cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["card_id", "title", "category", "observation"],
+        "properties": {
+          "card_id": { "type": "string" },
+          "title": { "type": "string" },
+          "category": { "type": "string" },
+          "observation": { "type": "string" },
+          "evidence_strength": { "type": "string" },
+          "confidence": { "type": "string" },
+          "source": { "type": "string" },
+          "provenance": { "type": "string" },
+          "finding_reference": { "type": "string" },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "threat_intelligence": { "type": "array", "items": { "type": "object" } },
+    "behavior_analysis": { "type": "array", "items": { "type": "object" } },
+    "dataflow_analysis": { "type": "array", "items": { "type": "object" } },
+    "module_results": { "type": "object" },
+    "mitigations": { "type": "array", "items": { "type": "string" } },
+    "protective_factors": { "type": "array", "items": { "type": "string" } },
+    "contradictions": { "type": "array", "items": { "type": "object" } },
+    "recommendations": { "type": "array", "items": { "type": "string" } },
+    "technical_details": { "type": "object" },
+    "provenance": { "type": "array", "items": { "type": "object" } },
+    "lineage": { "type": "array", "items": { "type": "object" } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}

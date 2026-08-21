@@ -26,10 +26,11 @@ class User(Base):
         Uuid(as_uuid=True), ForeignKey("roles.id", ondelete="RESTRICT"), nullable=False
     )
     status: Mapped[UserStatus] = mapped_column(
-        Enum(UserStatus, name="user_status_enum", native_enum=True),
+        Enum(UserStatus, values_callable=lambda x: [e.value for e in x], name="user_status_enum", native_enum=True),
         default=UserStatus.ACTIVE,
         nullable=False,
     )
+
     email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False

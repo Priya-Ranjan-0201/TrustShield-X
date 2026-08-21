@@ -11,11 +11,13 @@ class Settings(BaseSettings):
 
     # PostgreSQL Database
     POSTGRES_SERVER: str = Field(default="localhost")
-    POSTGRES_PORT: int = Field(default=5432)
-    POSTGRES_USER: str = Field(default="tsx_admin")
-    POSTGRES_PASSWORD: str = Field(default="tsx_password")
-    POSTGRES_DB: str = Field(default="truthshield_db")
+    POSTGRES_PORT: int = Field(default=5433)
+    POSTGRES_USER: str = Field(default="postgres")
+    POSTGRES_PASSWORD: str = Field(default="postgrespassword")
+    POSTGRES_DB: str = Field(default="truthshield")
+
     DATABASE_URL: str | None = None
+
 
     # Redis Cache & Token Management
     REDIS_HOST: str = Field(default="localhost")
@@ -70,8 +72,10 @@ class Settings(BaseSettings):
 
     async def validate_on_startup(self) -> None:
         """Validate critical environment variables, PostgreSQL, and Redis connectivity on startup."""
-        if len(self.JWT_SECRET_KEY) < 32 and self.ENVIRONMENT.lower() == "production":
-            raise ValueError("JWT_SECRET_KEY must be at least 32 characters long in production.")
+        jwt_key = getattr(self, "JWT_SECRET", "")
+        if len(jwt_key) < 32 and self.ENVIRONMENT.lower() == "production":
+            raise ValueError("JWT_SECRET must be at least 32 characters long in production.")
+
 
         try:
             from app.core.database import AsyncSessionLocal

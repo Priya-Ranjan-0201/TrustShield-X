@@ -24,7 +24,7 @@ COMMON_PASSWORDS = {
     "superman", "batman", "spiderman", "avengers", "starwars", "matrix", "hacker",
     "shadow", "sunshine", "princess", "angel", "freedom", "charlie", "michael",
     "jordan", "daniel", "thomas", "robert", "jessica", "mustang", "harley", "ferrari",
-    "iloveyou", "iloveyou123", "love1234", "forever", "godbless", "trustme"
+    "iloveyou", "iloveyou123", "love1234", "forever", "godbless", "trustme","apple"
 }
 
 

@@ -127,6 +127,16 @@ class AuthService:
             expires_at=v_expires_at,
         )
 
+        # 7. Seed Welcome Notification (Step 7 requirement)
+        from app.repositories.notification_repository import NotificationRepository
+        notif_repo = NotificationRepository(self.db)
+        await notif_repo.create_notification(
+            user_id=user.id,
+            title="Welcome to TruthShield X",
+            message="Your National Digital Trust account is active. Explore the Unified AI Scanner to verify links, documents, and UPI QR codes.",
+            severity="info",
+        )
+
         await self.audit_repo.log_action(
             action="USER_REGISTERED_SUCCESS",
             user_id=user.id,

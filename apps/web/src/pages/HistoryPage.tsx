@@ -6,7 +6,7 @@ import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 import { Badge } from '../components/ui/Badge';
 import { TooltipDisabled } from '../components/common/TooltipDisabled';
-import { mockHistoryService } from '../services/mockHistoryService';
+import { scanService } from '../services/scanService';
 import { ScanItem } from '../types';
 import { usei18n } from '../hooks/usei18n';
 
@@ -18,13 +18,13 @@ export const HistoryPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mockHistoryService.getScanHistory().then((res) => {
+    scanService.getHistory(filterType, searchQuery).then((res) => {
       if (res.success && res.data) {
         setHistory(res.data);
       }
       setIsLoading(false);
-    });
-  }, []);
+    }).catch(() => setIsLoading(false));
+  }, [filterType, searchQuery]);
 
   const filteredHistory = history.filter((item) => {
     const matchesSearch = item.target.toLowerCase().includes(searchQuery.toLowerCase());

@@ -19,7 +19,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { TooltipDisabled } from '../components/common/TooltipDisabled';
-import { mockDashboardService, DashboardData } from '../services/mockDashboardService';
+import { dashboardService, DashboardData } from '../services/dashboardService';
 import { useAuthStore } from '../store/useAuthStore';
 import { usei18n } from '../hooks/usei18n';
 
@@ -32,12 +32,12 @@ export const DashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mockDashboardService.getDashboardData().then((res) => {
+    dashboardService.getDashboardData().then((res) => {
       if (res.success && res.data) {
         setData(res.data);
       }
       setIsLoading(false);
-    });
+    }).catch(() => setIsLoading(false));
   }, []);
 
   return (

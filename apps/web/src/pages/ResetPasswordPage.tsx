@@ -25,7 +25,11 @@ export const ResetPasswordPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await authService.resetPassword({ token, new_password: newPassword });
+      const res = await authService.resetPassword({
+        token,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      });
       if (res.success) {
         toast.success('Password reset successfully.');
         navigate('/login');

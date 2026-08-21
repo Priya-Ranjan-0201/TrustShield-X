@@ -27,6 +27,9 @@ export interface ScanItem {
   status: TrustStatus;
   scanned_at: string;
   summary: string;
+  confidence_score?: number;
+  findings?: any;
+  [key: string]: any;
 }
 
 export interface NotificationItem {

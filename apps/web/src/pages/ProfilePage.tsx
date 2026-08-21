@@ -73,7 +73,7 @@ export const ProfilePage: React.FC = () => {
       }
     } catch (err: any) {
       toast.error(err?.response?.data?.message || 'Failed to update profile.');
-    } font-mono finally {
+    } finally {
       setIsUpdatingProfile(false);
     }
   };
@@ -90,6 +90,7 @@ export const ProfilePage: React.FC = () => {
       const res = await authService.changePassword({
         current_password: currentPassword,
         new_password: newPassword,
+        confirm_password: confirmPassword,
       });
 
       if (res.success) {

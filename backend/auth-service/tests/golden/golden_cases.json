@@ -1,0 +1,47 @@
+[
+  {
+    "case_id": "CLEAN-001",
+    "application_type": "Offline Utility",
+    "description": "Simple flashlight application with no network permissions",
+    "expected_behavior": "Benign offline flashlight",
+    "expected_risk_band": "TRUSTED",
+    "expected_risk_range": [0.0, 20.0],
+    "expected_primary_categories": ["UNKNOWN_RISK"],
+    "expected_confidence_range": ["HIGH", "VERY_HIGH"],
+    "expected_evidence_sufficiency": "SUFFICIENT",
+    "expected_major_findings": [],
+    "expected_absent_findings": ["NETWORK_ENDPOINT_OBSERVED"],
+    "known_limitations": [],
+    "dataset_version": "1.0.0"
+  },
+  {
+    "case_id": "CLEAN-002",
+    "application_type": "Calculator",
+    "description": "Basic mathematical calculator application",
+    "expected_behavior": "Benign calculator",
+    "expected_risk_band": "TRUSTED",
+    "expected_risk_range": [0.0, 20.0],
+    "expected_primary_categories": ["UNKNOWN_RISK"],
+    "expected_confidence_range": ["HIGH", "VERY_HIGH"],
+    "expected_evidence_sufficiency": "SUFFICIENT",
+    "expected_major_findings": [],
+    "expected_absent_findings": [],
+    "known_limitations": [],
+    "dataset_version": "1.0.0"
+  },
+  {
+    "case_id": "MALWARE-001",
+    "application_type": "Banking Trojan",
+    "description": "SMS exfiltrating banking trojan with C2 communication",
+    "expected_behavior": "SMS data exfiltration to C2 endpoint",
+    "expected_risk_band": "HIGH_RISK",
+    "expected_risk_range": [60.01, 100.0],
+    "expected_primary_categories": ["DATA_EXFILTRATION", "CREDENTIAL_THEFT"],
+    "expected_confidence_range": ["HIGH", "VERY_HIGH"],
+    "expected_evidence_sufficiency": "SUFFICIENT",
+    "expected_major_findings": ["SMS_DATA_NETWORK_TRANSFER"],
+    "expected_absent_findings": [],
+    "known_limitations": [],
+    "dataset_version": "1.0.0"
+  }
+]

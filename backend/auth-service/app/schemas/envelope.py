@@ -20,6 +20,14 @@ class StandardResponse(BaseModel, Generic[T]):
     data: Optional[T] = None
     meta: Optional[ResponseMeta] = None
 
+    @classmethod
+    def success_response(cls, data: Any = None, message: str = "Success") -> "StandardResponse[T]":
+        return cls(success=True, message=message, data=data)
+
+
+ResponseEnvelope = StandardResponse
+
+
 
 class ErrorResponse(BaseModel):
     success: bool = False

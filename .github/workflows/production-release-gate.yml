@@ -1,0 +1,72 @@
+name: TruthShield X Production Release Gate
+
+on:
+  push:
+    branches: [ main, release/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-regression:
+    name: Backend Test Suite & Security Gates
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: truthshield_test
+          POSTGRES_USER: tsx_admin
+          POSTGRES_PASSWORD: tsx_password
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv Package Manager
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Run Master Regression & Security Gate
+        env:
+          PYTHONPATH: backend/auth-service
+          DATABASE_URL: postgresql+asyncpg://tsx_admin:tsx_password@localhost:5432/truthshield_test
+          REDIS_URL: redis://localhost:6379/0
+        run: |
+          uv run python scripts/run_production_regression.py
+
+  frontend-build:
+    name: Frontend Production Bundle Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package.json
+
+      - name: Install Dependencies
+        working-directory: apps/web
+        run: npm ci || npm install
+
+      - name: TypeScript Check & Production Build
+        working-directory: apps/web
+        run: npm run build
